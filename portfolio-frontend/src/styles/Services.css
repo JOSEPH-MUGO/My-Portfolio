@@ -1,0 +1,12 @@
+.service-card {
+    border: none;
+    transition: transform 0.3s;
+  }
+  .service-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  }
+  .service-card .icon {
+    color: #0d6efd;
+  }
+  

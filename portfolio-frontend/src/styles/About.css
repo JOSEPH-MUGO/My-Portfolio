@@ -1,0 +1,168 @@
+/* About Page Styles */
+.about-photo {
+    width: 250px;
+    height: 250px;
+    object-fit: cover;
+    border: 5px solid #f1f1f1;
+  }
+  
+  .text-justify {
+    text-align: justify;
+  }
+  
+  .personal-info-card {
+    background-color: #f9f9f9;
+    padding: 1.5rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    width: 100%
+  }
+  .personal-info-card h3 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #007bff;
+    margin-bottom: 1rem;
+  }
+  
+  .personal-info-card .card-text {
+    margin-bottom: 0;
+    color: #555;
+    font-size: 0.95rem;
+  }
+  
+
+  
+  /* Headings */
+  h2 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 1.2rem; /* tighter gap below "About Me" */
+  }
+  
+  h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1rem; /* tighter section headings */
+  }
+  
+  /* Paragraphs and Lists */
+  p, ul li {
+    margin-bottom: 0.7rem;
+    font-size: 1rem;
+    color: #333;
+  }
+  
+  
+  
+  /* Timeline */
+  .timeline {
+    position: relative;
+    padding-left: 30px;
+  }
+  
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 10px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: #0d6efd; /* Bootstrap primary */
+  }
+  
+  .timeline-item {
+    position: relative;
+    margin-bottom: 20px;
+  }
+  
+  .timeline-dot {
+    position: absolute;
+    left: 2px;
+    top: 5px;
+    width: 16px;
+    height: 16px;
+    background: #0d6efd;
+    border-radius: 50%;
+  }
+  
+  .timeline-content {
+    margin-left: 30px;
+  }
+  
+  
+  /* Cards (Skills, Experience, Education, Certification) */
+  .card {
+    border-radius: 10px;
+    padding: 1.2rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 1.5rem; /* tighter gap between cards */
+    background-color: #ffffff;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  }
+  
+  .card-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: #007bff;
+  }
+  
+  .card-text {
+    font-size: 1rem;
+    color: #555;
+  }
+  
+  /* Progress bar inside Skills card */
+  .progress {
+    height: 8px;
+    background-color: #e9ecef;
+  }
+  
+  .progress-bar {
+    background-color: #007bff;
+  }
+  
+  /* Timeline inside Experience, Education */
+  .timeline {
+    list-style: none;
+    padding-left: 0;
+  }
+  
+  .timeline li {
+    padding-left: 1.5rem;
+    position: relative;
+    margin-bottom: 1rem;
+  }
+  
+  .timeline li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.4rem;
+    width: 10px;
+    height: 10px;
+    background-color: #007bff;
+    border-radius: 50%;
+  }
+  
+  /* Layout tweaks */
+  .row .col-md-6 {
+    margin-bottom: 1.5rem; /* tighter rows between 2 cards */
+  }
+  
+  .mb-5 {
+    margin-bottom: 2rem; /* reduced bottom margin */
+  }
+  
+  .mt-5 {
+    margin-top: 2rem; /* reduced top margin */
+  }
+  
+  .mb-4 {
+    margin-bottom: 1.5rem;
+  }
+  

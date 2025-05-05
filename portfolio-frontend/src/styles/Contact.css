@@ -1,0 +1,59 @@
+/* Floating effect for the contact info and form cards */
+.contact-card, .contact-form-card {
+  border: none;
+  border-radius: 0.75rem;
+  background: rgba(255, 255, 255, 0.1); /* Slightly less transparent */
+  backdrop-filter: blur(8px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.contact-card:hover, .contact-form-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+}
+
+/* Form and contact card elements */
+.contact-card .card-body, .contact-form-card .card-body {
+  padding: 2rem;
+}
+
+.contact-card .card-text, .contact-form-card .form-control {
+  color: #333; /* Darker text color for better contrast */
+}
+
+/* Icons styles */
+.icon {
+  margin-right: 0.5rem;
+  color: #007bff; /* Icon color to make it stand out */
+}
+
+/* Ensure the input fields have appropriate styling */
+.contact-form-card .form-control {
+  background: rgba(255, 255, 255, 0.85); /* Slightly more opaque background */
+  border: 1px solid #ddd; /* Light border for visibility */
+  border-radius: 0.5rem;
+  color: #333; /* Dark text color for better readability */
+}
+
+.contact-form-card .form-control::placeholder {
+  color: rgba(0, 0, 0, 0.5); /* Placeholder text in darker color */
+}
+
+.contact-form-card .form-control:focus {
+  background: rgba(255, 255, 255, 1);
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Blue focus outline */
+  border-color: #007bff; /* Blue border on focus */
+}
+
+/* Button style */
+.contact-form-card .btn {
+  border-radius: 0.5rem;
+  background-color: #007bff; /* Blue button background */
+  border: none;
+  color: #fff; /* White text on button */
+}
+
+.contact-form-card .btn:hover {
+  background-color: #005
+}

@@ -1,0 +1,60 @@
+/* Ensure body content does not hide behind the fixed navbar */
+body {
+    padding-top: 1px; /* Adjust based on navbar height */
+  }
+  
+  .styled-brand {
+    font-family: 'Georgia', serif;
+    font-weight: bold;
+    font-size: 1.8rem;
+    background: linear-gradient(45deg, #f7e89b, #e0c56d, #d1a13f);
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 1px 1px 2px #000;
+    display: inline-block;
+  }
+  
+  .styled-brand .highlight {
+    background: linear-gradient(45deg, #b91c1c, #16a34a, #d97706);
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-style: italic;
+  }
+  /* Navbar improvements */
+  #navbar {
+
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1050;
+    background-color: rgba(33, 37, 41, 0.95); /* Dark with slight transparency */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease-in-out;
+
+  }
+  
+  .navbar-nav .nav-link {
+    padding: 0.75rem 1rem;
+    font-weight: 500;
+    transition: color 0.3s ease;
+  }
+  
+  .navbar-nav .nav-link:hover {
+    color: #0dcaf0;
+  }
+  .navbar-brand {
+    font-weight: 600;
+    font-size: 1.5rem;
+  }
+  .navbar-toggler {
+    border: none;
+  }
+  
+  /* Responsive collapse menu styling */
+  @media (max-width: 991px) {
+    .navbar-collapse {
+        background-color: rgba(33, 37, 41, 0.95);
+      padding: 1rem 0;
+    }
+  }
+  

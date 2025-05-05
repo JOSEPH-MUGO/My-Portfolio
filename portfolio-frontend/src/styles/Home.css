@@ -1,0 +1,20 @@
+.home-hero {
+    position: relative;
+    /* we’re handling size & position inline */
+    overflow: hidden;
+  }
+  
+  /* Overlay sits above the image */
+  .home-hero .overlay {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 1;
+  }
+  
+  /* Your content sits above the overlay */
+  .home-hero .hero-content {
+    position: relative;
+    z-index: 2;
+  }
+  
