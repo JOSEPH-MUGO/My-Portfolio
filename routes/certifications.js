@@ -1,91 +1,93 @@
 // routes/certifications.js
-
-const express = require('express');
-const router = express.Router();
-const path = require('path');
-const upload = require('../middlewares/upload'); // your multer setup
-const sequelize  = require('../models');      // import initialized Sequelize
+const express    = require('express');
+const router     = express.Router();
+const multer     = require('multer');
+const upload     = multer({ storage: multer.memoryStorage() });
+const sequelize  = require('../models');
 const Certification = require('../models/Certification')(sequelize);
+const cloudinary = require('../utils/cloudinary');
 
-// ── GET all certifications ─────────────────────────────────────────────
+function uploadToCloudinary(buffer) {
+  return new Promise((res, rej) => {
+    const stream = cloudinary.uploader.upload_stream(
+      { folder: 'portfolio/certifications' },
+      (err, result) => err ? rej(err) : res(result)
+    );
+    stream.end(buffer);
+  });
+}
+
+// GET all
 router.get('/', async (req, res) => {
-  try {
-    const certs = await Certification.findAll();
-    res.json(certs);
-  } catch (err) {
-    console.error('Error fetching certifications:', err);
-    res.status(500).json({ error: 'Failed to fetch certifications.' });
-  }
+  const certs = await Certification.findAll();
+  res.json(certs);
 });
 
-// ── GET one certification ──────────────────────────────────────────────
+// GET one
 router.get('/:id', async (req, res) => {
-  try {
-    const cert = await Certification.findByPk(req.params.id);
-    if (!cert) return res.status(404).json({ error: 'Certification not found.' });
-    res.json(cert);
-  } catch (err) {
-    console.error('Error fetching certification:', err);
-    res.status(500).json({ error: 'Failed to fetch certification.' });
-  }
+  const cert = await Certification.findByPk(req.params.id);
+  if (!cert) return res.status(404).json({ error: 'Not found.' });
+  res.json(cert);
 });
 
-// ── CREATE a new certification ─────────────────────────────────────────
+// CREATE
 router.post('/', upload.single('photo'), async (req, res) => {
   try {
     const { title, issuer, dateAward, link } = req.body;
-    const photo = req.file ? req.file.filename : null;
-
-    // Validate required fields
     if (!title || !issuer || !dateAward) {
-      return res.status(400).json({ error: 'Title, issuer, and dateAward are required.' });
+      return res.status(400).json({ error: 'Missing required fields.' });
+    }
+
+    let photoUrl = null;
+    if (req.file) {
+      const result = await uploadToCloudinary(req.file.buffer);
+      photoUrl = result.secure_url;
     }
 
     const newCert = await Certification.create({
-      title,
-      issuer,
-      dateAward,
-      link,
-      photo
+      title, issuer, dateAward, link, photo: photoUrl
     });
-
     res.status(201).json(newCert);
   } catch (err) {
-    console.error('Error creating certification:', err);
-    res.status(500).json({ error: 'Failed to create certification.' });
+    console.error(err);
+    res.status(500).json({ error: 'Creation failed.' });
   }
 });
 
-// ── UPDATE a certification ─────────────────────────────────────────────
+// UPDATE
 router.put('/:id', upload.single('photo'), async (req, res) => {
   try {
     const cert = await Certification.findByPk(req.params.id);
-    if (!cert) return res.status(404).json({ error: 'Certification not found.' });
+    if (!cert) return res.status(404).json({ error: 'Not found.' });
 
     const { title, issuer, dateAward, link } = req.body;
     if (title)     cert.title     = title;
     if (issuer)    cert.issuer    = issuer;
     if (dateAward) cert.dateAward = dateAward;
     if (link)      cert.link      = link;
-    if (req.file)  cert.photo     = req.file.filename;
+
+    if (req.file) {
+      const result = await uploadToCloudinary(req.file.buffer);
+      cert.photo = result.secure_url;
+    }
 
     await cert.save();
     res.json(cert);
   } catch (err) {
-    console.error('Error updating certification:', err);
-    res.status(500).json({ error: 'Failed to update certification.' });
+    console.error(err);
+    res.status(500).json({ error: 'Update failed.' });
   }
 });
 
-// ── DELETE a certification ──────────────────────────────────────────────
+// DELETE
 router.delete('/:id', async (req, res) => {
   try {
     const deleted = await Certification.destroy({ where: { id: req.params.id } });
-    if (!deleted) return res.status(404).json({ error: 'Certification not found.' });
-    res.json({ message: 'Certification deleted successfully.' });
+    if (!deleted) return res.status(404).json({ error: 'Not found.' });
+    res.json({ message: 'Deleted.' });
   } catch (err) {
-    console.error('Error deleting certification:', err);
-    res.status(500).json({ error: 'Failed to delete certification.' });
+    console.error(err);
+    res.status(500).json({ error: 'Deletion failed.' });
   }
 });
 

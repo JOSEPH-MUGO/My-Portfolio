@@ -1,12 +1,13 @@
 import AOS from "aos";
 import "aos/dist/aos.css"; // Import AOS styles
 import React, { useEffect, useState } from "react";
+import API from "./api";
 
 
 function Projects() {
   const [projects, setProjects] = useState([]);
   useEffect(() => {
-    fetch(`${process.env.REACT_APP_API_URL}/api/projects`)
+    fetch(`${API}/api/projects`)
       .then((res) => res.json())
       .then((data) => setProjects(data))
       
@@ -22,7 +23,7 @@ function Projects() {
             <div className="card h-100 shadow-sm">
               {project.image && (
                 <img
-                  src={`${process.env.REACT_APP_API_URL}/uploads/${project.image}`}
+                  src={project.image}
                   className="card-img-top"
                   alt={project.title}
                   style={{ height: "200px", objectFit: "cover" }}

@@ -1,0 +1,49 @@
+services:
+  db:
+    image: postgres:15-alpine
+    restart: always
+    environment:
+      POSTGRES_DB: ${DB_NAME:-portfolio}
+      POSTGRES_USER: ${DB_USER:-postgres}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-password}
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+    depends_on:
+      - db
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_NAME: ${DB_NAME:-portfolio}
+      DB_USER: ${DB_USER:-postgres}
+      DB_PASSWORD: ${DB_PASSWORD:-password}
+      SMTP_HOST: ${SMTP_HOST}
+      SMTP_PORT: ${SMTP_PORT}
+      SMTP_USER: ${SMTP_USER}
+      SMTP_PASS: ${SMTP_PASS}
+      FROM_EMAIL: ${FROM_EMAIL}
+      TO_EMAIL: ${TO_EMAIL}
+      SESSION_SECRET: ${SESSION_SECRET}
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./uploads:/app/uploads
+
+  frontend:
+    build:
+      context: ./portfolio-frontend
+      dockerfile: Dockerfile.frontend
+    depends_on:
+      - backend
+    ports:
+      - "3000:80"
+
+# <-- Note: this is at the root level, aligned with "services"
+volumes:
+  db_data:

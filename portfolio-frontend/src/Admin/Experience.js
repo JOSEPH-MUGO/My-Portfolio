@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, Form, InputGroup, FormControl } from 'react-bootstrap';
 import Swal from 'sweetalert2';
 import axios from 'axios';
+import API from "../components/api";
 
 export default function AdminExperience() {
   const [items, setItems]       = useState([]);
@@ -19,7 +20,7 @@ export default function AdminExperience() {
 
   // Fetch experience records
   const fetchItems = async () => {
-    const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/experience`);
+    const res = await axios.get(`${API}/api/experience`);
     setItems(res.data);
     setFiltered(res.data);
   };
@@ -55,10 +56,10 @@ export default function AdminExperience() {
     setLoading(true);
     try {
       if (form.id) {
-        await axios.put(`${process.env.REACT_APP_API_URL}/api/experience/${form.id}`, form);
+        await axios.put(`${API}/api/experience/${form.id}`, form);
         Swal.fire('Updated', 'Experience updated.', 'success');
       } else {
-        await axios.post(`${process.env.REACT_APP_API_URL}/api/experience`, form);
+        await axios.post(`${API}/api/experience`, form);
         Swal.fire('Added', 'Experience added.', 'success');
       }
       closeModal();
@@ -80,7 +81,7 @@ export default function AdminExperience() {
       confirmButtonText: 'Yes, delete it'
     });
     if (res.isConfirmed) {
-      await axios.delete(`${process.env.REACT_APP_API_URL}/api/experience/${id}`);
+      await axios.delete(`${API}/api/experience/${id}`);
       Swal.fire('Deleted', 'Experience removed.', 'success');
       fetchItems();
     }

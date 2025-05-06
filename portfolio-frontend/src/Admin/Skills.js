@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, Form, InputGroup, FormControl } from 'react-bootstrap';
 import Swal from 'sweetalert2';
 import axios from 'axios';
+import API from "../components/api";
 
 export default function Skills() {
   const [skills, setSkills] = useState([]);
@@ -13,7 +14,7 @@ export default function Skills() {
 
   // Fetch all skills
   const fetchSkills = async () => {
-    const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/skills`);
+    const res = await axios.get(`${API}/api/skills`);
     setSkills(res.data);
     setFiltered(res.data);
   };
@@ -44,10 +45,10 @@ export default function Skills() {
     e.preventDefault();
     try {
       if (form.id) {
-        await axios.put(`${process.env.REACT_APP_API_URL}/api/skills/${form.id}`, form);
+        await axios.put(`${API}/api/skills/${form.id}`, form);
         Swal.fire('Updated!', 'Skill has been updated.', 'success');
       } else {
-        await axios.post(`${process.env.REACT_APP_API_URL}/api/skills`, form);
+        await axios.post(`${API}/api/skills`, form);
         Swal.fire('Added!', 'Skill has been added.', 'success');
       }
       closeModal();
@@ -67,7 +68,7 @@ export default function Skills() {
       confirmButtonText: 'Yes, delete it',
     });
     if (result.isConfirmed) {
-      await axios.delete(`${process.env.REACT_APP_API_URL}/api/skills/${id}`);
+      await axios.delete(`${API}/api/skills/${id}`);
       Swal.fire('Deleted!', 'Skill has been deleted.', 'success');
       fetchSkills();
     }

@@ -1,8 +1,9 @@
 import React from 'react';
 import { ReactTyped } from 'react-typed';
-import { FaGithub, FaLinkedin } from 'react-icons/fa';
+import { FaDownload } from 'react-icons/fa';
 import heroImage from '../assets/jose1.jpeg';
 import '../styles/Home.css';
+
 
 function Home() {
   const sectionStyle = {
@@ -31,10 +32,16 @@ function Home() {
           loop
           className="h4 text-light mb-4"
         /></h2>
-        <div>
-          <a href="https://github.com/JOSEPH-MUGO" className="btn btn-outline-light mx-2"><FaGithub /> GitHub</a>
-          <a href="https://www.linkedin.com/in/josephmugoithanwa" className="btn btn-primary mx-2"><FaLinkedin /> LinkedIn</a>
-        </div>
+         <div>
+      <a
+        href="https://docs.google.com/document/d/1Cx6_-QTT6nX8P3NBYLZX6u2g83qn_JdVS_7DBzvMFUU/edit?tab=t.0"
+        className="btn btn-primary mx-2 blink-glow"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <FaDownload className="me-2" /> Download CV
+      </a>
+    </div>
       </div>
       </section>
     );

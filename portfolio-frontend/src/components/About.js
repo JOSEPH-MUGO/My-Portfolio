@@ -2,10 +2,11 @@ import React, { useEffect, useState } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import "../styles/About.css";
+import API from "./api"; // Adjust the import based on your project structure
 
 function About() {
   // State of data
-  const API = process.env.REACT_APP_API_URL || "";
+  
   const [about, setAbout] = useState({ bio: "", photo: "" });
   const [skills, setSkills] = useState([]);
   const [experience, setExperience] = useState([]);
@@ -33,7 +34,7 @@ function About() {
     fetchJSON(`${API}/api/experience`, setExperience);
     fetchJSON(`${API}/api/education`, setEducation);
     fetchJSON(`${API}/api/certifications`, setCerts);
-  }, [API]);
+  }, []);
 
   return (
     <section className="container py-5" id="about" data-aos="fade-up">
@@ -43,7 +44,11 @@ function About() {
       <div className="row align-items-start mb-5">
         <div className="col-md-4 text-center mb-4 mb-md-0" data-aos="flip-left">
           <img
-            src={about.photo ? `${API}/uploads/${about.photo}` : "/assets/jose.jpeg"}
+            src={about.photo ? about.photo :"/assets/mypic.png"}
+            onError={(e) => {
+              e.target.onerror = null; // Prevent infinite loop
+              e.target.src = "/assets/mypic.jpeg"; // Fallback image
+            }}
             alt="Profile"
             className="img-fluid rounded-circle about-photo"
           />
@@ -167,7 +172,7 @@ function About() {
                     <div className="d-flex align-items-center">
                       {cert.photo && (
                         <img
-                          src={`${API}/uploads/${cert.photo}`}
+                          src={cert.photo}
                           alt={cert.title}
                           style={{
                             width: 60,

@@ -3,13 +3,14 @@ import 'aos/dist/aos.css';
 import React, { useEffect, useState } from 'react';
 import { FaCode, FaDatabase, FaMobileAlt, FaEnvelope } from 'react-icons/fa';
 import '../styles/Services.css';
+import API from "./api";
 
 function Services() {
   const [services, setServices] = useState([]);
 
   useEffect(() => {
     // For now, fetch static data from backend
-    fetch(`${process.env.REACT_APP_API_URL}/api/services`)
+    fetch(`${API}/api/services`)
       .then(res => res.json())
       .then(data => setServices(data))
       .catch(console.error);
@@ -19,7 +20,7 @@ function Services() {
 
   return (
     <section className="container py-5" id="services" data-aos="fade-up">
-      <h2 className="text-center mb-4">Services</h2>
+      <h2 className="text-center mb-4">Services I Offer</h2>
       <div className="row">
         {services.map((service, idx) => (
           <div className="col-md-4 mb-4" key={idx}>

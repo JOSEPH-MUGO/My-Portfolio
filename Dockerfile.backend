@@ -1,0 +1,26 @@
+# ---------- Stage 1: Build & install deps ----------
+    FROM node:18-alpine AS dependencies
+
+    WORKDIR /app
+    
+    # Copy package files and install production deps only
+    COPY package.json package-lock.json ./
+    RUN npm ci --only=production
+    
+    # Copy everything else (your server, models, routes, middleware)
+    COPY . .
+    
+    # ---------- Stage 2: Run ----------
+    FROM node:18-alpine AS runtime
+    
+    WORKDIR /app
+    
+    # Copy installed deps and app code from previous stage
+    COPY --from=dependencies /app .
+    
+    # Expose the port
+    EXPOSE 5000
+    
+    # Default command
+    CMD ["node", "server.js"]
+    

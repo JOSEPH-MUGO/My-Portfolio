@@ -2,6 +2,7 @@ import React, { useEffect, useState, useMemo } from 'react';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
+import API from "../components/api";
 import { Modal, Button } from 'react-bootstrap';
 
 function AdminProjects() {
@@ -18,7 +19,7 @@ function AdminProjects() {
 
   const fetchProjects = async () => {
     try {
-      const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/projects`);
+      const res = await axios.get(`${API}/api/projects`);
       setProjects(res.data);
     } catch (err) {
       Swal.fire({
@@ -56,7 +57,7 @@ function AdminProjects() {
 
     try {
       if (form.id) {
-        await axios.put(`${process.env.REACT_APP_API_URL}/api/projects/${form.id}`, formData, {
+        await axios.put(`${API}/api/projects/${form.id}`, formData, {
           headers: { 'Content-Type': 'multipart/form-data' },
         });
         Swal.fire({
@@ -65,7 +66,7 @@ function AdminProjects() {
           text: 'Project updated successfully.'
         });
       } else {
-        await axios.post(`${process.env.REACT_APP_API_URL}/api/projects`, formData, {
+        await axios.post(`${API}/api/projects`, formData, {
           headers: { 'Content-Type': 'multipart/form-data' },
         });
         Swal.fire({
@@ -109,7 +110,7 @@ function AdminProjects() {
     }).then(async result => {
       if (result.isConfirmed) {
         try {
-          await axios.delete(`${process.env.REACT_APP_API_URL}/api/projects/${id}`);
+          await axios.delete(`${API}/api/projects/${id}`);
           fetchProjects();
           Swal.fire('Deleted!', 'Project has been deleted.', 'success');
         } catch (err) {
@@ -157,7 +158,7 @@ function AdminProjects() {
                   <td>
                     {project.image ? (
                       <img
-                        src={`${process.env.REACT_APP_API_URL}/uploads/${project.image}`}
+                        src={project.image}
                         alt={project.title}
                         style={{ width: '120px', height: '80px', objectFit: 'cover' }}
                       />

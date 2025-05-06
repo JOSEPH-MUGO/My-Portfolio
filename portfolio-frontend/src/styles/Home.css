@@ -17,4 +17,20 @@
     position: relative;
     z-index: 2;
   }
+  .blink-glow {
+    animation: blink 1.5s infinite;
+    box-shadow: 0 0 10px rgba(0, 123, 255, 0.6), 0 0 20px rgba(0, 123, 255, 0.4);
+    transition: all 0.3s ease-in-out;
+  }
+  
+  @keyframes blink {
+    0%, 100% {
+      opacity: 1;
+      box-shadow: 0 0 10px rgba(0, 123, 255, 0.6), 0 0 20px rgba(0, 123, 255, 0.4);
+    }
+    50% {
+      opacity: 0.7;
+      box-shadow: 0 0 15px rgba(0, 123, 255, 0.9), 0 0 25px rgba(0, 123, 255, 0.6);
+    }
+  }
   

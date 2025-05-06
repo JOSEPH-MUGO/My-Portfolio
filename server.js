@@ -121,6 +121,21 @@ app.post('/api/visit', express.text({ type: '*/*' }), async (req, res) => {
   }
 });
 
+app.use((req, res, next) => {
+  res.status(404).json({ error: 'Not Found' });
+});
+
+// Global error handler — catches any thrown error
+app.use((err, req, res, next) => {
+  console.error('Unhandled error:', err);
+  res.status(err.status || 500).json({
+    error: err.message || 'Internal Server Error'
+  });
+});
+
+app.get('/', (req, res) => {
+  res.send('API is running...');
+});
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });

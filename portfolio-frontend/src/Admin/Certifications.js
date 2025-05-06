@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, Form, InputGroup, FormControl, Image } from 'react-bootstrap';
 import Swal from 'sweetalert2';
 import axios from 'axios';
+import API from "../components/api";
 
 export default function Certifications() {
   const [items, setItems]       = useState([]);
@@ -22,7 +23,7 @@ export default function Certifications() {
 
   // Fetch all certs
   const fetchItems = async () => {
-    const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/certifications`);
+    const res = await axios.get(`${API}/api/certifications`);
     setItems(res.data);
     setFiltered(res.data);
   };
@@ -51,7 +52,7 @@ export default function Certifications() {
         dateAward: item.dateAward,
         link: item.link || ''
       });
-      setPreviewUrl(item.photo ? `${process.env.REACT_APP_API_URL}/uploads/${item.photo}` : null);
+      setPreviewUrl(item.photo ? `${API}/uploads/${item.photo}` : null);
     } else {
       setForm({ id: null, title: '', issuer: '', dateAward: '', link: '' });
       setPreviewUrl(null);
@@ -84,12 +85,12 @@ export default function Certifications() {
 
     try {
       if (form.id) {
-        await axios.put(`${process.env.REACT_APP_API_URL}/api/certifications/${form.id}`, data, {
+        await axios.put(`${API}/api/certifications/${form.id}`, data, {
           headers: { 'Content-Type': 'multipart/form-data' }
         });
         Swal.fire('Updated', 'Certification updated successfully', 'success');
       } else {
-        await axios.post(`${process.env.REACT_APP_API_URL}/api/certifications`, data, {
+        await axios.post(`${API}/api/certifications`, data, {
           headers: { 'Content-Type': 'multipart/form-data' }
         });
         Swal.fire('Added', 'Certification added successfully', 'success');
@@ -113,7 +114,7 @@ export default function Certifications() {
       confirmButtonText: 'Yes, delete',
     });
     if (result.isConfirmed) {
-      await axios.delete(`${process.env.REACT_APP_API_URL}/api/certifications/${id}`);
+      await axios.delete(`${API}/api/certifications/${id}`);
       Swal.fire('Deleted', 'Certification removed', 'success');
       fetchItems();
     }
@@ -164,7 +165,7 @@ export default function Certifications() {
               <td>
                 {item.photo && (
                   <Image
-                    src={`${process.env.REACT_APP_API_URL}/uploads/${item.photo}`}
+                    src={item.photo}
                     rounded
                     style={{ width: 60, height: 60, objectFit: 'cover' }}
                   />

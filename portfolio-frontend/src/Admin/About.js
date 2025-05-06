@@ -2,9 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { Container, Form, Button, Image } from 'react-bootstrap';
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import API from "../components/api";
 
 export default function About() {
-  const API = process.env.REACT_APP_API_URL || "";
+  
   const [bio, setBio] = useState('');
   const [currentPhoto, setCurrentPhoto] = useState(null);
   const [newPhotoFile, setNewPhotoFile] = useState(null);
@@ -18,14 +19,14 @@ export default function About() {
         if (res.data) {
           setBio(res.data.bio || '');
           if (res.data.photo) {
-            setCurrentPhoto(`${API}/uploads/${res.data.photo}`);
+            setCurrentPhoto(res.data.photo);
           }
         }
       } catch (err) {
         console.error('Error loading About data', err);
       }
     })();
-  }, [API]);
+  }, []);
 
   // 2. Handle new photo selection
   const handlePhotoChange = e => {

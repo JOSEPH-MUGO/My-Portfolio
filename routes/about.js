@@ -1,29 +1,55 @@
 // routes/about.js
-const express = require('express');
-const router  = express.Router();
-const upload  = require('../middlewares/upload');
-const About   = require('../models/About')(require('../models/index'));
+const express    = require('express');
+const router     = express.Router();
+const multer     = require('multer');
+const upload     = multer({ storage: multer.memoryStorage() });
+const About      = require('../models/About')(require('../models/index'));
+const cloudinary = require('../utils/cloudinary');
 
-// Get about
-router.get('/', async (req, res) => {
-  const record = (await About.findAll({ limit: 1 }))[0];
-  res.json(record);
+function uploadToCloudinary(buffer) {
+  return new Promise((res, rej) => {
+    const stream = cloudinary.uploader.upload_stream(
+      { folder: 'portfolio/about' },
+      (err, result) => err ? rej(err) : res(result)
+    );
+    stream.end(buffer);
+  });
+}
+
+// GET /api/about
+router.get('/', async (req, res, next) => {
+  try {
+    const record = await About.findOne();
+    res.json(record || {});
+  } catch (err) {
+    next(err);
+  }
 });
 
-// Create or Update (upsert)
-router.post('/', upload.single('photo'), async (req, res) => {
-  const { bio } = req.body;
-  const photo   = req.file?.filename;
-  let record    = (await About.findAll({ limit: 1 }))[0];
+// POST /api/about
+router.post('/', upload.single('photo'), async (req, res, next) => {
+  try {
+    let photoUrl = undefined;
+    if (req.file) {
+      const result = await uploadToCloudinary(req.file.buffer);
+      photoUrl = result.secure_url;
+    }
 
-  if (record) {
-    record.bio = bio;
-    if (photo) record.photo = photo;
-    await record.save();
-  } else {
-    record = await About.create({ bio, photo });
+    const { bio } = req.body;
+    let record = await About.findOne();
+
+    if (record) {
+      record.bio = bio;
+      if (photoUrl) record.photo = photoUrl;
+      await record.save();
+    } else {
+      record = await About.create({ bio, photo: photoUrl });
+    }
+
+    res.json(record);
+  } catch (err) {
+    next(err);
   }
-  res.json(record);
 });
 
 module.exports = router;

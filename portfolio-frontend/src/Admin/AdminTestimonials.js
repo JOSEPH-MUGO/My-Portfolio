@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { Table, Button, InputGroup, FormControl, Tab, Nav } from 'react-bootstrap';
 import Swal from 'sweetalert2';
 import axios from 'axios';
+import API from "../components/api";
 
 export default function AdminTestimonials() {
             // all testimonials
@@ -12,8 +13,8 @@ export default function AdminTestimonials() {
 
   // Fetch both pending and approved
   const fetchData = async () => {
-    const p = await axios.get(`${process.env.REACT_APP_API_URL}/api/testimonials/pending`);
-    const a = await axios.get(`${process.env.REACT_APP_API_URL}/api/testimonials`);
+    const p = await axios.get(`${API}/api/testimonials/pending`);
+    const a = await axios.get(`${API}/api/testimonials`);
     setPending(p.data);
     setApproved(a.data);
     
@@ -38,7 +39,7 @@ export default function AdminTestimonials() {
       confirmButtonText: 'Yes, approve'
     });
     if (res.isConfirmed) {
-      await axios.put(`${process.env.REACT_APP_API_URL}/api/testimonials/${id}/approve`);
+      await axios.put(`${API}/api/testimonials/${id}/approve`);
       Swal.fire('Approved!', '', 'success');
       fetchData();
     }
@@ -53,7 +54,7 @@ export default function AdminTestimonials() {
       confirmButtonText: 'Yes, delete'
     });
     if (res.isConfirmed) {
-      await axios.delete(`${process.env.REACT_APP_API_URL}/api/testimonials/${id}`);
+      await axios.delete(`${API}/api/testimonials/${id}`);
       Swal.fire('Deleted!', '', 'success');
       fetchData();
     }
@@ -103,7 +104,7 @@ export default function AdminTestimonials() {
                     <td>
                       {t.photo && (
                         <img
-                          src={`${process.env.REACT_APP_API_URL}/uploads/${t.photo}`}
+                          src={`${API}/uploads/${t.photo}`}
                           alt={t.name}
                           style={{ width: 50, height: 50, objectFit: 'cover', borderRadius: '50%' }}
                         />
@@ -155,7 +156,7 @@ export default function AdminTestimonials() {
                     <td>
                       {t.photo && (
                         <img
-                          src={`${process.env.REACT_APP_API_URL}/uploads/${t.photo}`}
+                          src={t.photo ? t.photo : '/assets/mypic.png'}
                           alt={t.name}
                           style={{ width: 50, height: 50, objectFit: 'cover', borderRadius: '50%' }}
                         />

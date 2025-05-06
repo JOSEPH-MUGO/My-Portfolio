@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { FaEnvelope, FaPhoneAlt, FaMapMarkerAlt } from 'react-icons/fa';
 import '../styles/Contact.css';
+import API from "./api";
 
 function Contact() {
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
@@ -14,7 +15,7 @@ function Contact() {
     e.preventDefault();
     setStatus('Sending...');
     try {
-      const res = await fetch(`${process.env.REACT_APP_API_URL}/api/contact`, {
+      const res = await fetch(`${API}/api/contact`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),

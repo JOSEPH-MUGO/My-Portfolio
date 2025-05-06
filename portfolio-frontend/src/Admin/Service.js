@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, Form, InputGroup, FormControl } from 'react-bootstrap';
 import Swal from 'sweetalert2';
 import axios from 'axios';
-
+import API from "../components/api";
 export default function AdminService() {
   const [items, setItems]       = useState([]);
   const [filtered, setFiltered] = useState([]);
@@ -18,7 +18,7 @@ export default function AdminService() {
 
   // Fetch services
   const fetchItems = async () => {
-    const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/services`);
+    const res = await axios.get(`${API}/api/services`);
     setItems(res.data);
     setFiltered(res.data);
   };
@@ -54,10 +54,10 @@ export default function AdminService() {
     setLoading(true);
     try {
       if (form.id) {
-        await axios.put(`${process.env.REACT_APP_API_URL}/api/services/${form.id}`, form);
+        await axios.put(`${API}/api/services/${form.id}`, form);
         Swal.fire('Updated', 'Service updated.', 'success');
       } else {
-        await axios.post(`${process.env.REACT_APP_API_URL}/api/services`, form);
+        await axios.post(`${API}/api/services`, form);
         Swal.fire('Added', 'Service added.', 'success');
       }
       closeModal();
@@ -79,7 +79,7 @@ export default function AdminService() {
       confirmButtonText: 'Yes, delete'
     });
     if (res.isConfirmed) {
-      await axios.delete(`${process.env.REACT_APP_API_URL}/api/services/${id}`);
+      await axios.delete(`${API}/api/services/${id}`);
       Swal.fire('Deleted', 'Service removed.', 'success');
       fetchItems();
     }

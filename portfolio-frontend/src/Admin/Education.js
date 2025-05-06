@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, Form, InputGroup, FormControl } from 'react-bootstrap';
 import Swal from 'sweetalert2';
 import axios from 'axios';
+import API from "../components/api";
 
 export default function Education() {
   const [items, setItems]       = useState([]);
@@ -18,7 +19,7 @@ export default function Education() {
 
   // Fetch experience records
   const fetchItems = async () => {
-    const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/education`);
+    const res = await axios.get(`${API}/api/education`);
     setItems(res.data);
     setFiltered(res.data);
   };
@@ -54,10 +55,10 @@ export default function Education() {
     setLoading(true);
     try {
       if (form.id) {
-        await axios.put(`${process.env.REACT_APP_API_URL}/api/education/${form.id}`, form);
+        await axios.put(`${API}/api/education/${form.id}`, form);
         Swal.fire('Updated', 'Education updated.', 'success');
       } else {
-        await axios.post(`${process.env.REACT_APP_API_URL}/api/education`, form,{
+        await axios.post(`${API}/api/education`, form,{
             headers: { 'Content-Type': 'application/json' }
         });
         Swal.fire('Added', 'Education added.', 'success');
@@ -81,7 +82,7 @@ export default function Education() {
       confirmButtonText: 'Yes, delete it'
     });
     if (res.isConfirmed) {
-      await axios.delete(`${process.env.REACT_APP_API_URL}/api/education/${id}`);
+      await axios.delete(`${API}/api/education/${id}`);
       Swal.fire('Deleted', 'Education removed.', 'success');
       fetchItems();
     }
