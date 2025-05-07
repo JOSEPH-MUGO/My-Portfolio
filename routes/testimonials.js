@@ -23,13 +23,13 @@ function Testimonials() {
       .catch(console.error);
   }, []);
 
-  // Initialize carousel + custom auto-advance when there are at least 2 items
+  // Initializing carousel and auto-advancing when there are multiple testimonials
   useEffect(() => {
     if (testimonials.length > 1 && window.bootstrap && !initCarouselRef.current) {
       const el = document.getElementById('testimonialCarousel');
-      // init Bootstrap Carousel (no controls, just core)
+      
       const carousel = new window.bootstrap.Carousel(el, {
-        interval: false, // disable built-in interval
+        interval: false,
         ride: false,
         touch: true,
         wrap: true,
@@ -38,7 +38,7 @@ function Testimonials() {
       carouselRef.current = carousel;
       initCarouselRef.current = true;
 
-      // set up a JS interval to call next()
+      // setting up a interval to call next testimony
       autoAdvanceRef.current = setInterval(() => {
         carousel.next();
       }, 5000);
@@ -86,7 +86,7 @@ function Testimonials() {
       <div
         id="testimonialCarousel"
         className="carousel slide"
-        data-bs-touch="true"  // keep swipe enabled
+        data-bs-touch="true"  
       >
         <div className="carousel-inner">
           {testimonials.map((t, idx) => (

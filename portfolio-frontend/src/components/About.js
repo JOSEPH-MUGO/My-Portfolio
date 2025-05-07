@@ -6,14 +6,13 @@ import API from "./api"; // Adjust the import based on your project structure
 
 function About() {
   // State of data
-  
+
   const [about, setAbout] = useState({ bio: "", photo: "" });
   const [skills, setSkills] = useState([]);
   const [experience, setExperience] = useState([]);
   const [education, setEducation] = useState([]);
   const [certifications, setCerts] = useState([]);
 
-  
   useEffect(() => {
     AOS.init({ duration: 1000, once: false });
 
@@ -44,7 +43,7 @@ function About() {
       <div className="row align-items-start mb-5">
         <div className="col-md-4 text-center mb-4 mb-md-0" data-aos="flip-left">
           <img
-            src={about.photo ? about.photo :"/assets/mypic.png"}
+            src={about.photo ? about.photo : "/assets/mypic.png"}
             onError={(e) => {
               e.target.onerror = null; // Prevent infinite loop
               e.target.src = "/assets/mypic.jpeg"; // Fallback image
@@ -156,7 +155,6 @@ function About() {
             </div>
           </div>
         </div>
-
         {/* Certifications */}
         <div
           className="col-md-6"
@@ -165,11 +163,11 @@ function About() {
         >
           <div className="card h-100">
             <div className="card-body">
-              <h3 className="mb-4">Certifications</h3>
-              <ul className="list-unstyled">
+              <h3 className="mb-4 text-center">Certifications</h3>
+              <div className="row">
                 {certifications.map((cert) => (
-                  <li key={cert.id} className="mb-3">
-                    <div className="d-flex align-items-center">
+                  <div className="col-md-6 mb-4" key={cert.id}>
+                    <div className="d-flex align-items-start">
                       {cert.photo && (
                         <img
                           src={cert.photo}
@@ -184,23 +182,25 @@ function About() {
                       )}
                       <div>
                         <h5 className="mb-1">{cert.title}</h5>
-                        <small className="text-muted">
+                        <small className="text-muted d-block">
                           {cert.issuer} •{" "}
-                          {new Date(cert.dateAward || cert.year).getFullYear()}
+                          {new Date(cert.dateAward).getFullYear()}
                         </small>
-                        <a
-                          href={cert.link}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="d-block mt-1 btn btn-primary btn-sm"
-                        >
-                          View Certificate
-                        </a>
+                        {cert.link && (
+                          <a
+                            href={cert.link}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="btn btn-sm btn-outline-primary mt-2"
+                          >
+                            View Certificate
+                          </a>
+                        )}
                       </div>
                     </div>
-                  </li>
+                  </div>
                 ))}
-              </ul>
+              </div>
             </div>
           </div>
         </div>
