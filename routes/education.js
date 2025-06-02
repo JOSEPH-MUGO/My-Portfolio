@@ -1,6 +1,7 @@
 const express = require('express');
 const router  = express.Router();
-const Education   = require('../models/Education')(require('../models/index'));
+const { models } = require('../models');
+const Education   = models.education;
 
 // List
 router.get('/', async (req, res) => res.json(await Education.findAll()));

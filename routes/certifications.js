@@ -3,8 +3,8 @@ const express    = require('express');
 const router     = express.Router();
 const multer     = require('multer');
 const upload     = multer({ storage: multer.memoryStorage() });
-const sequelize  = require('../models');
-const Certification = require('../models/Certification')(sequelize);
+const { models } = require('../models');
+const Certification    = models.certifications;
 const cloudinary = require('../utils/cloudinary');
 
 function uploadToCloudinary(buffer) {

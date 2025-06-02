@@ -3,25 +3,28 @@ const axios = require("axios");
 const express = require("express");
 const cors = require("cors");
 const nodemailer = require("nodemailer");
-const sequelize = require("./models");
-const ProjectModel = require("./models/Project")(sequelize);
+require("./models");
+
 
 const app = express();
 const PORT = 5000;
 const path = require("path");
+
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-const projectRoutes = require("./routes/projects");
-app.use("/api/projects", projectRoutes);
+
+
+
+app.use("/api/projects",      require("./routes/projects"));
 app.use("/api/skills", require("./routes/skills"));
 app.use("/api/education", require("./routes/education"));
 app.use("/api/certifications", require("./routes/certifications"));
 app.use("/api/experience", require("./routes/experience"));
-
 app.use("/api/services", require("./routes/services"));
 app.use("/api/testimonials", require("./routes/testimonials"));
 app.use("/api/about", require("./routes/about"));
+
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 const transporter = nodemailer.createTransport({

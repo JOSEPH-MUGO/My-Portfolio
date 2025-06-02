@@ -1,7 +1,8 @@
 // routes/skills.js
 const express = require('express');
 const router  = express.Router();
-const Experience   = require('../models/Experience')(require('../models/index'));
+const { models } = require('../models');
+const Experience    = models.experience;
 
 // List
 router.get('/', async (req, res) => res.json(await Experience.findAll()));

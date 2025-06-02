@@ -44,4 +44,16 @@ sequelize.sync({ alter: true })
 
 
 
-module.exports = sequelize;
+module.exports = {
+  sequelize,
+  models: {
+    about:         About,
+    projects:      Project,
+    skills:        Skill,
+    education:     Education,
+    certifications: Certification,
+    experience:    Experience,
+    services:      Service,
+    testimonials:  Testimonial,
+  }
+};

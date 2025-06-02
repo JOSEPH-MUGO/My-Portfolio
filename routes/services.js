@@ -1,7 +1,8 @@
 // routes/skills.js
 const express = require('express');
 const router  = express.Router();
-const Service   = require('../models/Service')(require('../models/index'));
+const { models } = require('../models');
+const Service    = models.services;
 
 // List
 router.get('/', async (req, res) => res.json(await Service.findAll()));

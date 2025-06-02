@@ -1,7 +1,8 @@
 // routes/skills.js
 const express = require('express');
 const router  = express.Router();
-const Skill   = require('../models/Skill')(require('../models/index'));
+const { models } = require('../models');
+const Skill    = models.skills;
 
 // GET /api/skills — list all
 router.get('/', async (req, res) => {

@@ -1,0 +1,142 @@
+
+/*portfolio-frontend/src/styles/AIConsole.css */
+.ai-cli-wrapper {
+  display: flex;
+  gap: 2rem;
+  padding: 2rem;
+  min-height: 100vh;
+  background: #000;
+  align-items: flex-start;
+  justify-content: center;
+  position: relative;
+}
+
+.cli-left {
+  width: 250px;
+  text-align: center;
+  position: sticky;
+  top: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center children horizontally */
+}
+
+.name-plate {
+  font-family: 'Courier New', monospace;
+  font-weight: bold;
+  font-size: 1.5rem;
+  color: #00ff00;
+  margin-bottom: 1rem;
+  text-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
+}
+.namep {
+  font-family: 'Courier New', monospace;
+  font-weight: normal;
+  font-size: 1.25rem;
+  color: #73f373;
+  margin-bottom: 1rem;
+  text-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
+}
+
+card-3d {
+  background: #000;
+  border: 2px solid #00ff00;
+  border-radius: 15px;
+  padding: 0.8rem;
+  box-shadow: 0 0 20px rgba(0, 255, 0, 0.2);
+  transition: transform 0.3s ease;
+  width: 100%; /* Take full width of parent */
+  max-width: 300px; /* Maximum size */
+}
+
+.card-3d:hover {
+  transform: scale(1.02);
+}
+
+.profile-photo {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  display: block; /* Fix inline gap */
+  margin: 0 auto; /* Center horizontally */
+  aspect-ratio: 1; /* Keep square ratio */
+  object-fit: cover; /* Prevent stretching */
+}
+
+.cli-right {
+  flex: 1;
+  min-width: 300px;
+  max-width: 800px;
+  position: relative;
+}
+
+.terminal-glow {
+  border-radius: 10px;
+  box-shadow: 0 0 30px rgba(0, 255, 0, 0.2);
+}
+
+.terminal-container {
+  height: 70vh;
+  min-height: 400px;
+  background: #000 !important;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.xterm-viewport {
+  overflow-y: auto !important;
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+  scroll-behavior: smooth !important;
+}
+
+.xterm-viewport::-webkit-scrollbar {
+  display: none !important;
+
+}
+.xterm-cursor {
+  background: #00ff00 !important;
+  opacity: 1 !important;
+}
+
+/* Improve line spacing */
+.xterm-screen canvas {
+  line-height: 1.3 !important;
+}
+
+@media (max-width: 768px) {
+  .ai-cli-wrapper {
+    padding: 1rem;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .cli-left {
+    width: 100%;
+    position: static;
+    margin-bottom: 1.5rem;
+    max-width: 300px;
+  }
+  .namep {
+    font-size: 0.8rem;
+  }
+
+  
+  .profile-photo {
+    max-width: 200px !important;
+  }
+
+  .cli-right {
+    width: 100%;
+    min-width: unset;
+  }
+
+  .terminal-container {
+    height: 60vh;
+    min-height: 300px;
+  }
+
+  .name-plate {
+    font-size: 1.2rem;
+  }
+}

@@ -1,6 +1,7 @@
 // src/App.js
 import React from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import AIConsole from './components/AIConsole';
 
 import PublicLayout from "./layouts/PublicLayout";
 import AdminLayout from "./layouts/AdminLayout";
@@ -34,6 +35,8 @@ function App() {
             </PublicLayout>
           }
         />
+        <Route path="/ai" element={<AIConsole />} />
+
 
         {/* Admin login (unprotected) */}
         <Route path="/admin/login" element={<AdminLoginPage />} />

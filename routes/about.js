@@ -3,7 +3,8 @@ const express    = require('express');
 const router     = express.Router();
 const multer     = require('multer');
 const upload     = multer({ storage: multer.memoryStorage() });
-const About      = require('../models/About')(require('../models/index'));
+const { models } = require('../models');
+const About    = models.about;
 const cloudinary = require('../utils/cloudinary');
 
 function uploadToCloudinary(buffer) {

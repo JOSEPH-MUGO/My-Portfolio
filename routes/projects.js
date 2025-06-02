@@ -2,7 +2,8 @@
 const express    = require('express');
 const router     = express.Router();
 const multer     = require('multer');
-const Project    = require('../models/Project')(require('../models/index'));
+const { models } = require('../models');
+const Project    = models.projects;
 const cloudinary = require('../utils/cloudinary');
 
 // Multer: store uploads in memory

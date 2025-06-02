@@ -7,63 +7,50 @@ import API from "./api";
 
 function Testimonials() {
   const [testimonials, setTestimonials] = useState([]);
-
-  // Modal & form state
-  const [show, setShow] = useState(false);
-  const [form, setForm] = useState({ name: '', role: '', quote: '' });
+  const [show, setShow]       = useState(false);
+  const [form, setForm]       = useState({ name: '', role: '', quote: '' });
   const [photoFile, setPhotoFile] = useState(null);
 
-  // Refs to ensure we init only once
-  const carouselRef = useRef(null);
-  const initialized = useRef(false);
+  const carouselRef     = useRef(null);
+  const initCarouselRef = useRef(false);
 
-  // Fetch testimonials
+  // 1) Fetch testimonials once
   useEffect(() => {
     fetch(`${API}/api/testimonials`)
-      .then(res => res.json())
-      .then(data => setTestimonials(data))
+      .then(r => r.json())
+      .then(setTestimonials)
       .catch(console.error);
   }, []);
 
-  // Initialize carousel only if more than 1 slide
+  // 2) Initialize Bootstrap Carousel
   useEffect(() => {
-    if (
-      testimonials.length > 1 &&        // need at least 2 items
-      window.bootstrap &&
-      !initialized.current
-    ) {
+    if (testimonials.length > 1 && window.bootstrap && !initCarouselRef.current) {
       const el = document.getElementById('testimonialCarousel');
       const carousel = new window.bootstrap.Carousel(el, {
-        ride: 'carousel',    // start automatically
-        interval: 5000,      // 5s per slide
-        pause: false,        // don't pause on hover/touch
-        wrap: true,          // loop back to start
-        touch: true,         // enable swipe
-        keyboard: true       // enable arrow keys
+        interval: 5000,    // auto-advance every 5 seconds
+        ride:     'carousel',
+        touch:    true,
+        wrap:     true,
+        pause:    false    // don’t pause on hover
       });
-      carousel.cycle();      // ensure auto-cycling on mobile
       carouselRef.current = carousel;
-      initialized.current = true;
+      initCarouselRef.current = true;
     }
   }, [testimonials]);
 
-  // Modal handlers
-  const open = () => setShow(true);
-  const close = () => {
+  // Modal handlers (unchanged)...
+  const open      = () => setShow(true);
+  const close     = () => {
     setShow(false);
     setForm({ name: '', role: '', quote: '' });
     setPhotoFile(null);
   };
-
-  const handleChange = e => setForm(prev => ({ ...prev, [e.target.name]: e.target.value }));
+  const handleChange = e => setForm(f => ({ ...f, [e.target.name]: e.target.value }));
   const handlePhoto  = e => setPhotoFile(e.target.files[0]);
-
   const handleSubmit = async e => {
     e.preventDefault();
     const fd = new FormData();
-    fd.append('name', form.name);
-    fd.append('role', form.role);
-    fd.append('quote', form.quote);
+    Object.entries(form).forEach(([k,v]) => fd.append(k, v));
     if (photoFile) fd.append('photo', photoFile);
 
     try {
@@ -71,9 +58,8 @@ function Testimonials() {
       const data = await res.json();
       close();
       Swal.fire('Thank you!', data.message, 'success');
-    } catch (err) {
-      console.error(err);
-      Swal.fire('Error', 'Submission failed. Please try again.', 'error');
+    } catch {
+      Swal.fire('Error', 'Submission failed. Try again.', 'error');
     }
   };
 
@@ -84,34 +70,12 @@ function Testimonials() {
       <div
         id="testimonialCarousel"
         className="carousel slide"
-        data-bs-ride="carousel"       // automatic start
-        data-bs-interval="5000"        // 5s
-        data-bs-pause="false"          // no pause on hover
-        data-bs-touch="true"           // allow swipe
-        data-bs-wrap="true"            // loop slides
+        data-bs-ride="carousel"     // <-- enable auto-ride in markup
+        data-bs-interval="5000"     // <-- optional shortcut for interval
       >
-        {testimonials.length > 1 && (
-          <div className="carousel-indicators">
-            {testimonials.map((_, idx) => (
-              <button
-                key={idx}
-                type="button"
-                data-bs-target="#testimonialCarousel"
-                data-bs-slide-to={idx}
-                className={idx === 0 ? 'active' : ''}
-                aria-current={idx === 0 ? 'true' : undefined}
-                aria-label={`Slide ${idx + 1}`}
-              />
-            ))}
-          </div>
-        )}
-
         <div className="carousel-inner">
           {testimonials.map((t, idx) => (
-            <div
-              key={idx}
-              className={`carousel-item${idx === 0 ? ' active' : ''}`}
-            >
+            <div key={idx} className={`carousel-item${idx === 0 ? ' active' : ''}`}>
               <div className="testimonial text-center">
                 <img
                   src={t.photo || '/assets/mypic.png'}
